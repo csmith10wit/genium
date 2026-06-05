@@ -6,181 +6,261 @@
   <title>Genium — AI Companion. Humanoid. For Life.</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700;800;900&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700;800;900&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet" />
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     :root {
-      --bg: #050A14; --bg2: #0B1424; --bg3: #101D30;
-      --accent: #00C8FF; --accent2: #0075FF;
-      --text: #E8F0FF; --muted: #7A8FAD;
-      --border: rgba(0,200,255,0.15); --card-bg: rgba(11,20,36,0.85);
-      --nav-h: 72px; --radius: 12px;
+      --bg: #e8f0ff;
+      --bg2: #0B1424;
+      --bg3: #101D30;
+      --accent: #0062ff;
+      --accent2: #0075FF;
+      --accent-light: #4da3ff;
+      --text: #1a2f52;
+      --text-light: #365288;
+      --muted: #5a7299;
+      --muted-dark: #243246;
+      --border: rgba(0,0,0,0.12);
+      --border-dark: rgba(255,255,255,0.1);
+      --card-bg: rgba(255,255,255,0.72);
+      --nav-h: 72px;
+      --radius: 12px;
     }
+    html { scroll-behavior: smooth; }
     body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; overflow-x: hidden; }
 
-    /* NAV */
-    nav { position: fixed; top: 0; left: 0; right: 0; height: var(--nav-h); background: rgba(5,10,20,0.92); backdrop-filter: blur(18px); border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; padding: 0 40px; z-index: 100; }
+    /* ── NAV ── */
+    nav { position: fixed; top: 0; left: 0; right: 0; height: var(--nav-h); background: rgba(5,10,20,0.93); backdrop-filter: blur(20px); border-bottom: 1px solid rgba(255,255,255,0.07); display: flex; align-items: center; justify-content: space-between; padding: 0 40px; z-index: 200; }
     .logo-wrap { display: flex; align-items: center; gap: 10px; cursor: pointer; text-decoration: none; flex-shrink: 0; }
     .logo-robot { width: 36px; height: 36px; flex-shrink: 0; }
     .logo-wordmark svg { height: 22px; width: auto; }
     .nav-links { display: flex; gap: 4px; list-style: none; flex-wrap: wrap; }
-    .nav-links a { font-size: 13px; font-weight: 500; color: var(--muted); text-decoration: none; padding: 7px 13px; border-radius: 8px; transition: color 0.2s, background 0.2s; cursor: pointer; display: block; white-space: nowrap; }
-    .nav-links a:hover, .nav-links a.active { color: var(--text); background: rgba(0,200,255,0.08); }
-    .nav-links a.active { color: var(--accent); }
+    .nav-links a { font-size: 13px; font-weight: 500; color: rgba(255,255,255,0.55); text-decoration: none; padding: 7px 14px; border-radius: 8px; transition: color 0.2s, background 0.2s; cursor: pointer; display: block; white-space: nowrap; }
+    .nav-links a:hover { color: rgba(255,255,255,0.9); background: rgba(255,255,255,0.07); }
+    .nav-links a.active { color: #fff; background: rgba(0,98,255,0.22); }
 
-    /* PAGES */
+    /* ── PAGES ── */
     .page { display: none; padding-top: var(--nav-h); }
     .page.active { display: block; }
 
-    /* ── HOME ── */
-    .hero { min-height: calc(100vh - var(--nav-h)); display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 80px 24px 60px; position: relative; overflow: hidden; }
-    .hero::before { content: ''; position: absolute; width: 700px; height: 700px; border-radius: 50%; background: radial-gradient(circle, rgba(0,117,255,0.11) 0%, transparent 70%); top: 50%; left: 50%; transform: translate(-50%,-50%); pointer-events: none; }
-    .hero-eyebrow { font-size: 12px; font-weight: 500; letter-spacing: 0.18em; text-transform: uppercase; color: var(--accent); margin-bottom: 20px; display: flex; align-items: center; gap: 10px; }
-    .hero-eyebrow::before, .hero-eyebrow::after { content: ''; display: block; width: 28px; height: 1px; background: var(--accent); opacity: 0.5; }
-    h1 { font-family: 'Nunito', sans-serif; font-size: clamp(42px,7vw,88px); font-weight: 900; line-height: 1.0; letter-spacing: -0.02em; margin-bottom: 24px; }
-    h1 em { font-style: normal; color: var(--accent); display: block; }
-    .hero-sub { font-size: 20px; font-weight: 600; color: var(--text); max-width: 560px; line-height: 1.5; margin-bottom: 40px; letter-spacing: -0.01em; }
-    .btn-group { display: flex; gap: 12px; flex-wrap: wrap; justify-content: center; }
-    .btn { font-family: 'DM Sans', sans-serif; font-size: 14px; font-weight: 500; padding: 13px 28px; border-radius: 8px; cursor: pointer; text-decoration: none; transition: all 0.2s; border: none; display: inline-block; }
-    .btn-primary { background: var(--accent); color: #050A14; }
-    .btn-primary:hover { background: #33D4FF; transform: translateY(-1px); }
-    .btn-secondary { background: transparent; color: var(--text); border: 1px solid var(--border); }
-    .btn-secondary:hover { border-color: var(--accent); color: var(--accent); background: rgba(0,200,255,0.05); }
-    .stats-bar { display: flex; border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; max-width: 700px; margin: 60px auto 0; }
-    .stat { flex: 1; padding: 24px 20px; text-align: center; border-right: 1px solid var(--border); }
-    .stat:last-child { border-right: none; }
-    .stat-num { font-family: 'Nunito', sans-serif; font-size: 28px; font-weight: 800; color: var(--accent); }
-    .stat-label { font-size: 12px; color: var(--muted); margin-top: 4px; }
+    /* ── SHARED COMPONENTS ── */
     .section { padding: 100px 48px; max-width: 1100px; margin: 0 auto; }
-    .section-label { font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--accent); margin-bottom: 14px; }
-    .section-title { font-family: 'Nunito', sans-serif; font-size: clamp(28px,4vw,44px); font-weight: 800; line-height: 1.1; margin-bottom: 16px; }
+    .section-label { font-size: 11px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--accent); margin-bottom: 14px; font-weight: 600; }
+    .section-title { font-family: 'Nunito', sans-serif; font-size: clamp(28px,4vw,44px); font-weight: 800; line-height: 1.1; margin-bottom: 16px; color: var(--text); }
     .section-sub { font-size: 16px; color: var(--muted); font-weight: 300; max-width: 480px; line-height: 1.65; }
     .section-header { display: flex; justify-content: space-between; align-items: flex-end; gap: 40px; margin-bottom: 56px; flex-wrap: wrap; }
     .divider { border: none; border-top: 1px solid var(--border); margin: 0; }
-    .features-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px,1fr)); gap: 20px; }
-    .feature-card { background: var(--card-bg); border: 1px solid var(--border); border-radius: var(--radius); padding: 32px 28px; transition: border-color 0.25s, transform 0.2s; position: relative; overflow: hidden; }
-    .feature-card::after { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: linear-gradient(90deg, var(--accent2), var(--accent)); opacity: 0; transition: opacity 0.25s; }
-    .feature-card:hover { border-color: rgba(0,200,255,0.35); transform: translateY(-3px); }
-    .feature-card:hover::after { opacity: 1; }
-    .feat-icon { width: 44px; height: 44px; border-radius: 10px; background: rgba(0,200,255,0.1); display: flex; align-items: center; justify-content: center; margin-bottom: 20px; font-size: 20px; }
-    .feat-title { font-family: 'Nunito', sans-serif; font-size: 17px; font-weight: 700; margin-bottom: 10px; }
-    .feat-desc { font-size: 14px; color: var(--muted); line-height: 1.65; }
-    .models-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px,1fr)); gap: 24px; }
-    .model-card { background: var(--bg2); border: 1px solid var(--border); border-radius: 16px; overflow: hidden; transition: transform 0.25s, border-color 0.25s; }
-    .model-card:hover { transform: translateY(-4px); border-color: rgba(0,200,255,0.4); }
-    .model-visual { height: 180px; display: flex; align-items: center; justify-content: center; font-size: 70px; background: var(--bg3); border-bottom: 1px solid var(--border); position: relative; }
-    .model-badge { position: absolute; top: 14px; right: 14px; font-size: 11px; padding: 4px 10px; border-radius: 20px; font-weight: 500; }
-    .badge-new { background: rgba(0,200,255,0.15); color: var(--accent); border: 1px solid rgba(0,200,255,0.3); }
-    .badge-flagship { background: rgba(0,117,255,0.15); color: #5BA4FF; border: 1px solid rgba(0,117,255,0.3); }
-    .badge-coming { background: rgba(122,143,173,0.1); color: var(--muted); border: 1px solid rgba(122,143,173,0.2); }
-    .model-info { padding: 24px; }
-    .model-name { font-family: 'Nunito', sans-serif; font-size: 20px; font-weight: 800; margin-bottom: 6px; }
-    .model-desc { font-size: 14px; color: var(--muted); line-height: 1.6; margin-bottom: 18px; }
-    .model-specs { display: flex; gap: 16px; flex-wrap: wrap; }
-    .spec { font-size: 12px; color: var(--muted); display: flex; align-items: center; gap: 5px; }
-    .spec::before { content: ''; width: 5px; height: 5px; border-radius: 50%; background: var(--accent); opacity: 0.6; display: block; }
-    .cta-strip { background: var(--bg3); border: 1px solid var(--border); border-radius: 20px; padding: 64px 56px; display: flex; justify-content: space-between; align-items: center; gap: 40px; flex-wrap: wrap; }
-    .cta-title { font-family: 'Nunito', sans-serif; font-size: 32px; font-weight: 800; line-height: 1.15; }
-    .cta-title em { font-style: normal; color: var(--accent); }
-    footer { border-top: 1px solid var(--border); padding: 36px 48px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px; }
-    footer p { font-size: 13px; color: var(--muted); }
+    .btn { font-family: 'DM Sans', sans-serif; font-size: 14px; font-weight: 500; padding: 13px 28px; border-radius: 8px; cursor: pointer; text-decoration: none; transition: all 0.2s; border: none; display: inline-block; }
+    .btn-primary { background: var(--accent); color: #fff; }
+    .btn-primary:hover { background: #1a75ff; transform: translateY(-1px); box-shadow: 0 8px 24px rgba(0,98,255,0.35); }
+    .btn-secondary { background: transparent; color: var(--text); border: 1.5px solid rgba(0,0,0,0.2); }
+    .btn-secondary:hover { border-color: var(--accent); color: var(--accent); background: rgba(0,98,255,0.06); }
+    .btn-group { display: flex; gap: 12px; flex-wrap: wrap; justify-content: center; }
 
-    /* ── ABOUT PAGE ── */
-    .about-hero { padding: 80px 48px 60px; max-width: 1100px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; }
-    .about-hero-text .hero-eyebrow { justify-content: flex-start; }
-    .about-hero-text .hero-eyebrow::before { display: none; }
-    .about-hero-text h2 { font-family: 'Nunito', sans-serif; font-size: clamp(32px,5vw,58px); font-weight: 900; line-height: 1.05; margin-bottom: 20px; }
-    .about-hero-text p { font-size: 16px; color: var(--muted); line-height: 1.75; margin-bottom: 16px; }
-    .about-visual { background: var(--bg3); border: 1px solid var(--border); border-radius: 24px; height: 380px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 12px; }
-    .about-visual .big-robot { font-size: 100px; }
-    .about-visual p { font-size: 13px; color: var(--muted); letter-spacing: 0.1em; text-transform: uppercase; }
-    .values-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px,1fr)); gap: 20px; }
-    .value-card { background: var(--bg3); border: 1px solid var(--border); border-radius: var(--radius); padding: 28px 24px; }
-    .value-num { font-family: 'Nunito', sans-serif; font-size: 36px; font-weight: 900; color: rgba(0,200,255,0.2); margin-bottom: 8px; }
-    .value-title { font-family: 'Nunito', sans-serif; font-size: 16px; font-weight: 800; margin-bottom: 8px; }
-    .value-desc { font-size: 14px; color: var(--muted); line-height: 1.6; }
-    .timeline { position: relative; padding-left: 32px; }
-    .timeline::before { content: ''; position: absolute; left: 0; top: 8px; bottom: 8px; width: 2px; background: var(--border); }
-    .tl-item { position: relative; margin-bottom: 40px; }
-    .tl-item::before { content: ''; position: absolute; left: -37px; top: 6px; width: 10px; height: 10px; border-radius: 50%; background: var(--accent); border: 2px solid var(--bg); }
-    .tl-year { font-size: 11px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--accent); margin-bottom: 4px; }
-    .tl-title { font-family: 'Nunito', sans-serif; font-size: 16px; font-weight: 800; margin-bottom: 4px; }
-    .tl-desc { font-size: 14px; color: var(--muted); line-height: 1.6; }
+    footer { background: var(--bg2); border-top: 1px solid rgba(255,255,255,0.07); padding: 36px 48px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px; }
+    footer p { font-size: 13px; color: rgba(255,255,255,0.35); }
 
-    /* ── ROBOTS PAGE ── */
-    .robots-hero { padding: 80px 48px 20px; max-width: 1100px; margin: 0 auto; text-align: center; }
-    .robots-hero h2 { font-family: 'Nunito', sans-serif; font-size: clamp(36px,5vw,64px); font-weight: 900; margin-bottom: 16px; }
-    .robots-hero p { font-size: 17px; color: var(--muted); max-width: 540px; margin: 0 auto; line-height: 1.65; }
-    .robot-detail-grid { display: grid; gap: 32px; padding: 60px 48px 100px; max-width: 1100px; margin: 0 auto; }
-    .robot-detail-card { background: var(--bg2); border: 1px solid var(--border); border-radius: 20px; overflow: hidden; display: grid; grid-template-columns: 280px 1fr; }
-    .robot-detail-card.reversed { }
-    .robot-detail-visual { background: var(--bg3); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 12px; padding: 48px 24px; border-right: 1px solid var(--border); }
-    .robot-detail-visual .r-emoji { font-size: 80px; }
-    .robot-detail-visual .r-badge { font-size: 11px; padding: 5px 14px; border-radius: 20px; font-weight: 500; }
-    .robot-detail-body { padding: 40px 36px; }
-    .robot-detail-body .model-name { font-family: 'Nunito', sans-serif; font-size: 28px; font-weight: 900; margin-bottom: 8px; }
-    .robot-detail-body .tagline { font-size: 14px; color: var(--accent); letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 16px; }
-    .robot-detail-body .desc { font-size: 15px; color: var(--muted); line-height: 1.75; margin-bottom: 24px; }
-    .spec-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 12px; margin-bottom: 24px; }
-    .spec-tile { background: var(--bg3); border-radius: 10px; padding: 12px 14px; }
-    .spec-tile .s-val { font-family: 'Nunito', sans-serif; font-size: 18px; font-weight: 800; color: var(--accent); }
-    .spec-tile .s-key { font-size: 11px; color: var(--muted); margin-top: 2px; }
-    .cap-list { display: flex; flex-wrap: wrap; gap: 8px; }
-    .cap-tag { font-size: 12px; padding: 5px 12px; border-radius: 20px; background: rgba(0,200,255,0.08); border: 1px solid var(--border); color: var(--muted); }
+    @keyframes fadeUp { from { opacity:0; transform:translateY(24px); } to { opacity:1; transform:translateY(0); } }
+    .fade-up { animation: fadeUp 0.65s ease both; }
+    .delay-1 { animation-delay: 0.12s; }
+    .delay-2 { animation-delay: 0.24s; }
 
-    /* ── CAREERS PAGE ── */
-    .careers-hero { padding: 80px 48px 60px; max-width: 1100px; margin: 0 auto; text-align: center; }
-    .careers-hero h2 { font-family: 'Nunito', sans-serif; font-size: clamp(36px,5vw,64px); font-weight: 900; margin-bottom: 16px; }
-    .careers-hero p { font-size: 17px; color: var(--muted); max-width: 580px; margin: 0 auto; line-height: 1.65; }
-    .perks-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px,1fr)); gap: 16px; margin-bottom: 80px; }
-    .perk-card { background: var(--bg3); border: 1px solid var(--border); border-radius: var(--radius); padding: 24px; text-align: center; }
-    .perk-icon { font-size: 30px; margin-bottom: 12px; }
-    .perk-title { font-family: 'Nunito', sans-serif; font-size: 15px; font-weight: 800; margin-bottom: 6px; }
-    .perk-desc { font-size: 13px; color: var(--muted); line-height: 1.55; }
-    .jobs-list { display: grid; gap: 14px; }
-    .job-card { background: var(--card-bg); border: 1px solid var(--border); border-radius: var(--radius); padding: 22px 28px; display: flex; justify-content: space-between; align-items: center; gap: 20px; transition: border-color 0.2s, transform 0.15s; cursor: pointer; }
-    .job-card:hover { border-color: rgba(0,200,255,0.4); transform: translateX(4px); }
-    .job-info {}
-    .job-title { font-family: 'Nunito', sans-serif; font-size: 17px; font-weight: 800; margin-bottom: 6px; }
-    .job-meta { display: flex; gap: 12px; flex-wrap: wrap; }
-    .job-tag { font-size: 12px; padding: 3px 10px; border-radius: 20px; }
-    .tag-dept { background: rgba(0,117,255,0.12); color: #5BA4FF; border: 1px solid rgba(0,117,255,0.2); }
-    .tag-loc  { background: rgba(0,200,255,0.08); color: var(--accent); border: 1px solid var(--border); }
-    .tag-type { background: rgba(89,219,139,0.08); color: #59DB8B; border: 1px solid rgba(89,219,139,0.2); }
-    .job-arrow { font-size: 18px; color: var(--muted); flex-shrink: 0; transition: color 0.2s; }
-    .job-card:hover .job-arrow { color: var(--accent); }
+    /* ════════════════════════════════════════
+       HOME PAGE
+    ════════════════════════════════════════ */
 
-    /* ── ORG CHART ── */
+    /* Hero with placeholder banner */
+    .hero {
+      min-height: calc(100vh - var(--nav-h));
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      text-align: center; padding: 80px 24px 60px;
+      position: relative; overflow: hidden;
+    }
+    .hero-bg {
+      position: absolute; inset: 0; z-index: 0;
+      background: linear-gradient(135deg, #0a1628 0%, #0d2050 40%, #061035 100%);
+    }
+    /* Placeholder image area - replace src with real image */
+    .hero-bg img {
+      width: 100%; height: 100%; object-fit: cover; opacity: 0.38;
+      display: block;
+    }
+    .hero-bg-overlay {
+      position: absolute; inset: 0;
+      background: rgba(0,40,120,0.55);
+      backdrop-filter: blur(0px);
+    }
+    /* Placeholder notice shown when no real image */
+    .hero-bg-placeholder {
+      position: absolute; inset: 0;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 13px; color: rgba(255,255,255,0.18); letter-spacing: 0.12em; text-transform: uppercase;
+      pointer-events: none;
+    }
+    .hero-content { position: relative; z-index: 1; }
+    .hero-eyebrow { font-size: 12px; font-weight: 600; letter-spacing: 0.2em; text-transform: uppercase; color: #7eb8ff; margin-bottom: 22px; display: flex; align-items: center; justify-content: center; gap: 12px; }
+    .hero-eyebrow::before, .hero-eyebrow::after { content: ''; display: block; width: 30px; height: 1px; background: #7eb8ff; opacity: 0.45; }
+    h1 { font-family: 'Nunito', sans-serif; font-size: clamp(44px,7.5vw,96px); font-weight: 900; line-height: 1.0; letter-spacing: -0.025em; margin-bottom: 24px; color: #fff; }
+    h1 em { font-style: normal; color: #7eb8ff; display: block; }
+    .hero-sub { font-size: 20px; font-weight: 300; color: rgba(255,255,255,0.78); max-width: 520px; line-height: 1.55; margin: 0 auto 40px; }
+    .hero-btn-group { display: flex; gap: 14px; flex-wrap: wrap; justify-content: center; }
+    .hero-btn-group .btn-secondary { color: rgba(255,255,255,0.8); border-color: rgba(255,255,255,0.3); }
+    .hero-btn-group .btn-secondary:hover { color: #fff; border-color: rgba(255,255,255,0.7); background: rgba(255,255,255,0.08); }
+
+    /* Why Genium slider */
+    .why-section {
+      position: relative; overflow: hidden;
+      min-height: 520px;
+    }
+    .why-bg {
+      position: absolute; inset: 0; z-index: 0;
+      background: linear-gradient(120deg, #071428 0%, #0a1e40 50%, #050f22 100%);
+    }
+    .why-bg img { width: 100%; height: 100%; object-fit: cover; opacity: 0.25; display: block; }
+    .why-bg-overlay { position: absolute; inset: 0; background: rgba(4,14,40,0.68); }
+    .why-bg-placeholder { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; font-size: 13px; color: rgba(255,255,255,0.14); letter-spacing: 0.12em; text-transform: uppercase; pointer-events: none; }
+    .why-slider-wrap { position: relative; z-index: 1; display: flex; align-items: stretch; min-height: 520px; overflow: hidden; }
+    .why-slide {
+      min-width: 100%; display: flex; align-items: center; justify-content: center;
+      flex-direction: column; text-align: center; padding: 80px 60px;
+      transition: transform 0.6s cubic-bezier(0.4,0,0.2,1), opacity 0.5s ease;
+      position: absolute; inset: 0;
+      opacity: 0; pointer-events: none;
+    }
+    .why-slide.active { opacity: 1; pointer-events: auto; position: relative; min-height: 520px; }
+    .why-slide-label { font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase; color: #7eb8ff; margin-bottom: 20px; font-weight: 600; }
+    .why-title { font-family: 'Nunito', sans-serif; font-size: clamp(48px, 8vw, 100px); font-weight: 900; color: #fff; line-height: 1.0; letter-spacing: -0.02em; margin-bottom: 32px; }
+    .why-reason-title { font-family: 'Nunito', sans-serif; font-size: clamp(28px,4vw,48px); font-weight: 800; color: #fff; line-height: 1.1; margin-bottom: 20px; }
+    .why-reason-text { font-size: 18px; font-weight: 300; color: rgba(255,255,255,0.72); max-width: 560px; line-height: 1.65; margin: 0 auto; }
+    .why-nav { position: absolute; bottom: 36px; left: 50%; transform: translateX(-50%); display: flex; align-items: center; gap: 20px; z-index: 10; }
+    .why-dots { display: flex; gap: 8px; }
+    .why-dot { width: 8px; height: 8px; border-radius: 50%; background: rgba(255,255,255,0.28); cursor: pointer; transition: background 0.2s, transform 0.2s; border: none; }
+    .why-dot.active { background: #fff; transform: scale(1.3); }
+    .why-arrow { background: rgba(255,255,255,0.12); border: 1px solid rgba(255,255,255,0.2); color: #fff; width: 42px; height: 42px; border-radius: 50%; cursor: pointer; font-size: 16px; display: flex; align-items: center; justify-content: center; transition: background 0.2s; }
+    .why-arrow:hover { background: rgba(255,255,255,0.22); }
+
+    /* Join Team (CTA) */
+    .cta-strip { background: var(--bg3); border: 1px solid rgba(255,255,255,0.08); border-radius: 20px; padding: 64px 56px; display: flex; justify-content: space-between; align-items: center; gap: 40px; flex-wrap: wrap; }
+    .cta-title { font-family: 'Nunito', sans-serif; font-size: 32px; font-weight: 800; line-height: 1.15; color: #fff; }
+    .cta-title em { font-style: normal; color: var(--accent-light); }
+    .cta-strip .btn-secondary { color: rgba(255,255,255,0.75); border-color: rgba(255,255,255,0.25); }
+    .cta-strip .btn-secondary:hover { color: #fff; border-color: rgba(255,255,255,0.6); background: rgba(255,255,255,0.06); }
+
+    /* ════════════════════════════════════════
+       ABOUT PAGE
+    ════════════════════════════════════════ */
+    .about-banner {
+      min-height: 420px; position: relative; overflow: hidden;
+      display: flex; align-items: center; padding: 100px 60px;
+    }
+    .about-banner-bg {
+      position: absolute; inset: 0; z-index: 0;
+      background: linear-gradient(135deg, #050e20 0%, #091830 60%, #030a18 100%);
+    }
+    .about-banner-bg img { width: 100%; height: 100%; object-fit: cover; opacity: 0.3; display: block; }
+    .about-banner-overlay { position: absolute; inset: 0; background: linear-gradient(90deg, rgba(5,14,32,0.85) 0%, rgba(5,14,32,0.45) 100%); }
+    .about-banner-content { position: relative; z-index: 1; max-width: 680px; }
+    .about-banner-content .hero-eyebrow { justify-content: flex-start; color: #7eb8ff; margin-bottom: 18px; }
+    .about-banner-content .hero-eyebrow::before { display: none; }
+    .about-banner-content h2 { font-family: 'Nunito', sans-serif; font-size: clamp(36px,5vw,62px); font-weight: 900; color: #fff; line-height: 1.05; margin-bottom: 20px; }
+    .about-banner-content p { font-size: 17px; color: rgba(255,255,255,0.72); line-height: 1.75; }
+
+    .about-body-section { padding: 80px 48px; max-width: 1100px; margin: 0 auto; }
+    .about-lead { font-size: 17px; color: var(--muted-dark); line-height: 1.8; margin-bottom: 20px; }
+    .about-highlight { font-size: 17px; color: var(--accent); font-weight: 500; line-height: 1.7; }
+
+    .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 64px; align-items: start; }
+    @media (max-width: 768px) { .two-col { grid-template-columns: 1fr; gap: 40px; } }
+
+    .mission-box { background: var(--bg2); border: 1px solid rgba(255,255,255,0.07); border-radius: 20px; padding: 48px 44px; }
+    .mission-box h3 { font-family: 'Nunito', sans-serif; font-size: 28px; font-weight: 800; color: #fff; margin-bottom: 16px; }
+    .mission-box p { font-size: 16px; color: rgba(255,255,255,0.65); line-height: 1.75; }
+
+    .values-list { display: flex; flex-direction: column; gap: 0; }
+    .value-item { display: flex; align-items: flex-start; gap: 18px; padding: 22px 0; border-bottom: 1px solid var(--border); }
+    .value-item:last-child { border-bottom: none; }
+    .value-num { font-family: 'Nunito', sans-serif; font-size: 13px; font-weight: 800; color: var(--accent); opacity: 0.7; min-width: 28px; padding-top: 3px; }
+    .value-text { font-size: 15px; color: var(--text); font-weight: 500; line-height: 1.5; }
+
+    .vision-banner { background: var(--bg2); border-radius: 0; padding: 80px 48px; text-align: center; position: relative; overflow: hidden; }
+    .vision-banner::before { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse at 50% 0%, rgba(0,98,255,0.14) 0%, transparent 65%); }
+    .vision-banner h3 { font-family: 'Nunito', sans-serif; font-size: clamp(28px,4vw,44px); font-weight: 800; color: #fff; margin-bottom: 20px; position: relative; z-index: 1; }
+    .vision-banner p { font-size: 17px; color: rgba(255,255,255,0.62); max-width: 720px; margin: 0 auto; line-height: 1.8; position: relative; z-index: 1; }
+
+    /* ════════════════════════════════════════
+       EXPLORE ROBOTS (GENI) PAGE
+    ════════════════════════════════════════ */
+    .geni-hero {
+      min-height: 480px; position: relative; overflow: hidden;
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      text-align: center; padding: 100px 48px 80px;
+    }
+    .geni-hero-bg { position: absolute; inset: 0; z-index: 0; background: linear-gradient(160deg, #070e20 0%, #0b1c3a 50%, #040c1e 100%); }
+    .geni-hero-bg img { width: 100%; height: 100%; object-fit: cover; opacity: 0.28; display: block; }
+    .geni-hero-overlay { position: absolute; inset: 0; background: rgba(4,12,30,0.62); }
+    .geni-hero-content { position: relative; z-index: 1; }
+    .geni-hero-content .hero-eyebrow { color: #7eb8ff; margin-bottom: 16px; }
+    .geni-hero-content h2 { font-family: 'Nunito', sans-serif; font-size: clamp(52px,8vw,96px); font-weight: 900; color: #fff; line-height: 1.0; letter-spacing: -0.025em; margin-bottom: 14px; }
+    .geni-tagline { font-size: 22px; font-weight: 300; color: rgba(255,255,255,0.7); letter-spacing: 0.02em; margin-bottom: 24px; }
+    .geni-desc { font-size: 17px; color: rgba(255,255,255,0.62); max-width: 640px; line-height: 1.75; margin: 0 auto; }
+
+    .geni-body { max-width: 1100px; margin: 0 auto; padding: 80px 48px 60px; }
+    .geni-features-title { font-family: 'Nunito', sans-serif; font-size: clamp(24px,3vw,36px); font-weight: 800; color: var(--text); margin-bottom: 40px; }
+    .geni-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px,1fr)); gap: 24px; margin-bottom: 80px; }
+    .geni-card {
+      background: #fff; border: 1px solid rgba(0,0,0,0.09); border-radius: 16px;
+      padding: 36px 32px; transition: transform 0.25s, box-shadow 0.25s, border-color 0.25s;
+      position: relative; overflow: hidden;
+    }
+    .geni-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: linear-gradient(90deg, var(--accent2), var(--accent-light)); opacity: 0; transition: opacity 0.25s; }
+    .geni-card:hover { transform: translateY(-4px); box-shadow: 0 16px 48px rgba(0,0,0,0.1); border-color: rgba(0,98,255,0.2); }
+    .geni-card:hover::before { opacity: 1; }
+    .geni-card-img { width: 100%; height: 140px; background: linear-gradient(135deg, #e8f0ff 0%, #d0e0ff 100%); border-radius: 10px; margin-bottom: 24px; display: flex; align-items: center; justify-content: center; font-size: 12px; color: rgba(0,98,255,0.45); letter-spacing: 0.1em; text-transform: uppercase; border: 1px dashed rgba(0,98,255,0.2); }
+    .geni-card-title { font-family: 'Nunito', sans-serif; font-size: 19px; font-weight: 800; color: var(--text); margin-bottom: 12px; }
+    .geni-card-list { list-style: none; display: flex; flex-direction: column; gap: 8px; }
+    .geni-card-list li { font-size: 14px; color: var(--muted); line-height: 1.55; display: flex; align-items: flex-start; gap: 8px; }
+    .geni-card-list li::before { content: ''; display: block; width: 5px; height: 5px; border-radius: 50%; background: var(--accent); flex-shrink: 0; margin-top: 6px; }
+
+    .geni-principles { background: var(--bg2); border-radius: 20px; padding: 64px 56px; margin-bottom: 80px; }
+    .geni-principles h3 { font-family: 'Nunito', sans-serif; font-size: clamp(24px,3vw,36px); font-weight: 800; color: #fff; margin-bottom: 40px; }
+    .principles-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px,1fr)); gap: 20px; }
+    .principle-item { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.08); border-radius: 12px; padding: 28px 24px; text-align: center; }
+    .principle-icon { width: 56px; height: 56px; background: linear-gradient(135deg, #e8f0ff, #d0e0ff); border-radius: 10px; margin: 0 auto 16px; display: flex; align-items: center; justify-content: center; font-size: 11px; color: rgba(0,98,255,0.5); text-transform: uppercase; letter-spacing: 0.06em; font-weight: 600; }
+    .principle-name { font-family: 'Nunito', sans-serif; font-size: 15px; font-weight: 800; color: #fff; line-height: 1.3; }
+
+    .geni-companion { background: linear-gradient(135deg, #e8f0ff 0%, #d5e5ff 100%); border-radius: 20px; padding: 64px 56px; text-align: center; border: 1px solid rgba(0,98,255,0.15); }
+    .geni-companion h3 { font-family: 'Nunito', sans-serif; font-size: clamp(26px,3vw,38px); font-weight: 800; color: var(--text); margin-bottom: 18px; }
+    .geni-companion p { font-size: 17px; color: var(--muted); max-width: 620px; margin: 0 auto; line-height: 1.75; }
+
+    /* ════════════════════════════════════════
+       OUR TEAM PAGE
+    ════════════════════════════════════════ */
     .org-hero { padding: 60px 48px 32px; max-width: 1200px; margin: 0 auto; }
-    .org-hero h2 { font-family: 'Nunito', sans-serif; font-size: clamp(32px,5vw,54px); font-weight: 900; line-height: 1.05; margin-bottom: 14px; }
+    .org-hero h2 { font-family: 'Nunito', sans-serif; font-size: clamp(32px,5vw,54px); font-weight: 900; line-height: 1.05; margin-bottom: 14px; color: var(--text); }
     .org-hero p { font-size: 16px; color: var(--muted); max-width: 580px; line-height: 1.65; }
     .org-wrap { max-width: 1200px; margin: 0 auto; padding: 0 32px 80px; }
 
-    /* Board row */
     .board-label { text-align: center; font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--muted); margin-bottom: 16px; }
     .board-row { display: grid; grid-template-columns: repeat(6,1fr); gap: 10px; margin-bottom: 0; }
-    .board-card { background: var(--bg3); border: 1px solid var(--border); border-radius: 12px; padding: 16px 10px; text-align: center; }
-    .board-avatar { width: 52px; height: 52px; border-radius: 50%; background: var(--bg2); border: 1px solid var(--border); margin: 0 auto 10px; display: flex; align-items: center; justify-content: center; font-size: 22px; color: var(--muted); overflow: hidden; }
+    .board-card { background: var(--bg3); border: 1px solid rgba(255,255,255,0.08); border-radius: 12px; padding: 16px 10px; text-align: center; }
+    .board-avatar { width: 52px; height: 52px; border-radius: 50%; background: linear-gradient(135deg, #1a2d50, #0f1e38); border: 1.5px dashed rgba(255,255,255,0.2); margin: 0 auto 10px; display: flex; align-items: center; justify-content: center; font-size: 10px; color: rgba(255,255,255,0.25); overflow: hidden; text-align: center; letter-spacing: 0.04em; font-weight: 500; }
     .board-avatar img { width: 100%; height: 100%; object-fit: cover; border-radius: 50%; }
-    .board-name { font-family: 'Nunito', sans-serif; font-size: 12px; font-weight: 800; margin-bottom: 3px; line-height: 1.3; }
-    .board-role { font-size: 10px; color: var(--muted); }
+    .board-name { font-family: 'Nunito', sans-serif; font-size: 12px; font-weight: 800; margin-bottom: 3px; line-height: 1.3; color: #fff; }
+    .board-role { font-size: 10px; color: rgba(255,255,255,0.4); }
 
-    .v-line { width: 2px; background: var(--border); margin: 0 auto; }
-    .board-to-ceo-wrap { display: flex; justify-content: center; }
+    .v-line { width: 2px; background: rgba(255,255,255,0.1); margin: 0 auto; }
     .ceo-row { display: flex; justify-content: center; }
     .ceo-card { background: var(--bg3); border: 2px solid var(--accent); border-radius: 16px; padding: 22px 36px; text-align: center; width: 220px; }
-    .ceo-card .c-icon { font-size: 28px; margin-bottom: 8px; }
-    .ceo-card .c-title { font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--accent); margin-bottom: 4px; }
-    .ceo-card .c-name { font-family: 'Nunito', sans-serif; font-size: 16px; font-weight: 800; }
+    .ceo-card .c-title { font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--accent-light); margin-bottom: 4px; }
+    .ceo-card .c-name { font-family: 'Nunito', sans-serif; font-size: 16px; font-weight: 800; color: #fff; }
     .h-line-wrap { display: flex; position: relative; justify-content: space-between; padding: 0 8%; }
-    .h-line-wrap::before { content: ''; position: absolute; top: 0; left: 8%; right: 8%; height: 2px; background: var(--border); }
+    .h-line-wrap::before { content: ''; position: absolute; top: 0; left: 8%; right: 8%; height: 2px; background: rgba(255,255,255,0.1); }
     .h-drop { flex: 1; display: flex; justify-content: center; }
-    .h-drop::after { content: ''; display: block; width: 2px; height: 32px; background: var(--border); }
+    .h-drop::after { content: ''; display: block; width: 2px; height: 32px; background: rgba(255,255,255,0.1); }
     .exec-row { display: grid; grid-template-columns: repeat(5,1fr); gap: 12px; padding: 0 8px; }
     .exec-card { border-radius: 14px; padding: 18px 14px; text-align: center; cursor: pointer; transition: transform 0.2s, box-shadow 0.2s; position: relative; border: 1px solid transparent; user-select: none; }
     .exec-card:hover { transform: translateY(-3px); }
-    .exec-card .c-icon { font-size: 22px; margin-bottom: 8px; }
-    .exec-card .c-abbr { font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 3px; opacity: 0.85; }
+    .exec-card .c-abbr { font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 3px; opacity: 0.85; font-weight: 600; }
     .exec-card .c-name { font-family: 'Nunito', sans-serif; font-size: 13px; font-weight: 800; line-height: 1.3; }
     .exec-card .toggle-arrow { position: absolute; bottom: -10px; left: 50%; transform: translateX(-50%); width: 20px; height: 20px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 11px; transition: transform 0.3s; z-index: 2; }
     .exec-card.open .toggle-arrow { transform: translateX(-50%) rotate(180deg); }
@@ -211,29 +291,85 @@
     .div-section-title { font-size: 9px; letter-spacing: 0.15em; text-transform: uppercase; margin-bottom: 8px; font-weight: 700; opacity: 0.7; }
     .div-dept { background: rgba(255,255,255,0.04); border-radius: 8px; padding: 10px 12px; margin-bottom: 6px; }
     .div-dept-name { font-family: 'Nunito', sans-serif; font-size: 12px; font-weight: 800; margin-bottom: 6px; display: flex; align-items: center; gap: 6px; }
-    .div-team { font-size: 11px; color: var(--muted); padding: 3px 0 3px 8px; border-left: 1px solid rgba(255,255,255,0.1); line-height: 1.4; }
+    .div-team { font-size: 11px; color: rgba(255,255,255,0.45); padding: 3px 0 3px 8px; border-left: 1px solid rgba(255,255,255,0.1); line-height: 1.4; }
     .research-row { max-height: 0; overflow: hidden; opacity: 0; transition: max-height 0.5s ease 0.1s, opacity 0.4s ease 0.1s, margin 0.3s; margin: 0 8px; }
     .research-row.visible { max-height: 200px; opacity: 1; margin-top: 20px; }
     .research-panel { background: #0D1F38; border: 1px solid #1E4080; border-radius: 14px; padding: 20px 24px; }
     .research-header { font-family: 'Nunito', sans-serif; font-size: 14px; font-weight: 800; color: #7EB8FF; margin-bottom: 14px; display: flex; align-items: center; gap: 8px; }
     .research-teams { display: grid; grid-template-columns: repeat(4,1fr); gap: 10px; }
-    .research-team { background: rgba(255,255,255,0.04); border-radius: 8px; padding: 10px 12px; font-size: 12px; text-align: center; color: var(--muted); line-height: 1.4; }
+    .research-team { background: rgba(255,255,255,0.04); border-radius: 8px; padding: 10px 12px; font-size: 12px; text-align: center; color: rgba(255,255,255,0.45); line-height: 1.4; }
     .research-team strong { display: block; color: #7EB8FF; font-size: 11px; margin-bottom: 3px; }
-    .mission-bar { background: var(--bg3); border: 1px solid var(--border); border-radius: 12px; padding: 18px 24px; margin: 24px 8px 0; display: flex; align-items: flex-start; gap: 12px; font-size: 14px; color: var(--muted); line-height: 1.6; }
-    .mission-bar strong { color: var(--text); }
 
-    @keyframes fadeUp { from { opacity:0; transform:translateY(20px); } to { opacity:1; transform:translateY(0); } }
-    .fade-up { animation: fadeUp 0.6s ease both; }
-    .delay-1 { animation-delay: 0.1s; }
-    .delay-2 { animation-delay: 0.2s; }
-    .delay-3 { animation-delay: 0.3s; }
+    /* ════════════════════════════════════════
+       CAREERS PAGE
+    ════════════════════════════════════════ */
+    .careers-hero { padding: 80px 48px 60px; max-width: 1100px; margin: 0 auto; text-align: center; }
+    .careers-hero h2 { font-family: 'Nunito', sans-serif; font-size: clamp(36px,5vw,64px); font-weight: 900; margin-bottom: 16px; color: var(--text); }
+    .careers-hero p { font-size: 17px; color: var(--muted); max-width: 580px; margin: 0 auto; line-height: 1.65; }
+
+    .jobs-section { max-width: 1100px; margin: 0 auto; padding: 0 48px 100px; }
+    .jobs-section-label { font-size: 11px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--accent); margin-bottom: 12px; font-weight: 600; }
+    .jobs-section-title { font-family: 'Nunito', sans-serif; font-size: 36px; font-weight: 800; color: var(--text); margin-bottom: 40px; }
+
+    .job-listing {
+      background: #fff; border: 1px solid rgba(0,0,0,0.1); border-radius: 20px;
+      overflow: hidden; margin-bottom: 28px;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.05);
+      transition: box-shadow 0.25s, transform 0.2s;
+    }
+    .job-listing:hover { box-shadow: 0 8px 32px rgba(0,0,0,0.1); transform: translateY(-2px); }
+    .job-header { padding: 36px 40px 28px; border-bottom: 1px solid rgba(0,0,0,0.07); }
+    .job-meta-top { display: flex; align-items: center; gap: 12px; margin-bottom: 12px; flex-wrap: wrap; }
+    .job-tag { font-size: 12px; padding: 4px 12px; border-radius: 20px; font-weight: 500; }
+    .tag-dept { background: rgba(0,98,255,0.1); color: var(--accent); border: 1px solid rgba(0,98,255,0.2); }
+    .tag-loc  { background: rgba(0,0,0,0.05); color: var(--muted); border: 1px solid rgba(0,0,0,0.1); }
+    .job-listing-title { font-family: 'Nunito', sans-serif; font-size: 26px; font-weight: 800; color: var(--text); margin-bottom: 6px; }
+    .job-salary { font-size: 14px; color: var(--muted); font-weight: 400; }
+    .job-body { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; padding: 36px 40px; }
+    @media (max-width: 700px) { .job-body { grid-template-columns: 1fr; } }
+    .job-section-title { font-family: 'Nunito', sans-serif; font-size: 14px; font-weight: 800; color: var(--text); margin-bottom: 14px; text-transform: uppercase; letter-spacing: 0.08em; }
+    .job-desc { font-size: 15px; color: var(--muted); line-height: 1.7; margin-bottom: 20px; }
+    .job-list { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+    .job-list li { font-size: 14px; color: var(--muted-dark); display: flex; align-items: flex-start; gap: 10px; line-height: 1.55; }
+    .job-list li::before { content: ''; display: block; width: 5px; height: 5px; border-radius: 50%; background: var(--accent); flex-shrink: 0; margin-top: 6px; }
+    .job-footer { padding: 24px 40px; background: rgba(0,98,255,0.03); border-top: 1px solid rgba(0,0,0,0.06); display: flex; align-items: center; justify-content: flex-end; }
+    .apply-btn { background: var(--accent); color: #fff; font-family: 'DM Sans', sans-serif; font-size: 15px; font-weight: 600; padding: 14px 36px; border-radius: 10px; border: none; cursor: pointer; transition: background 0.2s, transform 0.15s, box-shadow 0.2s; }
+    .apply-btn:hover { background: #1a75ff; transform: translateY(-1px); box-shadow: 0 6px 20px rgba(0,98,255,0.35); }
+
+    /* ── APPLY MODAL ── */
+    .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.55); backdrop-filter: blur(6px); z-index: 500; display: flex; align-items: center; justify-content: center; padding: 24px; opacity: 0; pointer-events: none; transition: opacity 0.25s; }
+    .modal-overlay.active { opacity: 1; pointer-events: auto; }
+    .modal { background: #fff; border-radius: 20px; width: 100%; max-width: 520px; overflow: hidden; transform: translateY(20px); transition: transform 0.3s ease; box-shadow: 0 24px 80px rgba(0,0,0,0.22); }
+    .modal-overlay.active .modal { transform: translateY(0); }
+    .modal-header { background: var(--bg2); padding: 32px 36px 28px; }
+    .modal-header h3 { font-family: 'Nunito', sans-serif; font-size: 22px; font-weight: 800; color: #fff; margin-bottom: 6px; }
+    .modal-header p { font-size: 14px; color: rgba(255,255,255,0.5); }
+    .modal-body { padding: 36px; }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 20px; }
+    .form-group { display: flex; flex-direction: column; gap: 6px; }
+    .form-group label { font-size: 13px; font-weight: 600; color: var(--text); letter-spacing: 0.02em; }
+    .form-group input { padding: 12px 14px; border: 1.5px solid rgba(0,0,0,0.15); border-radius: 8px; font-family: 'DM Sans', sans-serif; font-size: 14px; color: var(--text); background: #fafbff; outline: none; transition: border-color 0.2s; }
+    .form-group input:focus { border-color: var(--accent); background: #fff; }
+    .upload-zone { border: 2px dashed rgba(0,98,255,0.25); border-radius: 12px; padding: 28px 20px; text-align: center; cursor: pointer; background: rgba(0,98,255,0.02); transition: border-color 0.2s, background 0.2s; margin-bottom: 16px; }
+    .upload-zone:hover { border-color: rgba(0,98,255,0.5); background: rgba(0,98,255,0.05); }
+    .upload-zone input[type="file"] { display: none; }
+    .upload-zone .upload-label { font-size: 14px; color: var(--muted); line-height: 1.6; cursor: pointer; display: block; }
+    .upload-zone .upload-label span { color: var(--accent); font-weight: 600; }
+    .upload-zone .upload-hint { font-size: 12px; color: rgba(0,0,0,0.35); margin-top: 6px; }
+    .upload-zone.uploaded { border-color: rgba(0,160,80,0.5); background: rgba(0,160,80,0.04); }
+    .upload-zone.uploaded .upload-label { color: #0a7a40; }
+    .modal-footer { padding: 0 36px 32px; display: flex; gap: 12px; }
+    .modal-submit { flex: 1; background: var(--accent); color: #fff; padding: 14px; border-radius: 10px; border: none; font-family: 'DM Sans', sans-serif; font-size: 15px; font-weight: 600; cursor: pointer; transition: background 0.2s; }
+    .modal-submit:hover { background: #1a75ff; }
+    .modal-cancel { background: transparent; color: var(--muted); padding: 14px 20px; border-radius: 10px; border: 1.5px solid rgba(0,0,0,0.15); font-family: 'DM Sans', sans-serif; font-size: 14px; cursor: pointer; transition: border-color 0.2s; }
+    .modal-cancel:hover { border-color: rgba(0,0,0,0.3); }
   </style>
 </head>
 <body>
 
 <!-- ══════════════ NAV ══════════════ -->
 <nav>
-  <a class="logo-wrap" onclick="showPage('home')">
+  <a class="logo-wrap" onclick="showPage('home')" style="text-decoration:none;">
     <svg class="logo-robot" viewBox="0 0 80 80" fill="none">
       <ellipse cx="40" cy="28" rx="21" ry="22" fill="white"/>
       <ellipse cx="40" cy="29" rx="15" ry="13" fill="#0D0D1A"/>
@@ -259,59 +395,77 @@
 
 <!-- ══════════════ HOME ══════════════ -->
 <div class="page active" id="page-home">
+
+  <!-- Hero Banner -->
   <section class="hero">
-    <div class="hero-eyebrow">AI Companion. Humanoid. For Life.</div>
-    <h1 class="fade-up">The Future<em>Walks With Us</em></h1>
-    <p class="hero-sub fade-up delay-1">Enhancing human connection, not replacing it.</p>
-    <div class="btn-group fade-up delay-2">
-      <a class="btn btn-primary" onclick="showPage('robots')">Explore Robots</a>
-      <a class="btn btn-secondary" onclick="showPage('about')">Our Story</a>
+    <div class="hero-bg">
+      <!-- Replace with: <img src="your-hero-image.jpg" alt="Hero background"> -->
+      <div class="hero-bg-placeholder">[ Add Hero Background Image Here ]</div>
+    </div>
+    <div class="hero-bg-overlay"></div>
+    <div class="hero-content">
+      <div class="hero-eyebrow fade-up">AI Companion. Humanoid. For Life.</div>
+      <h1 class="fade-up delay-1">The Future<em>Walks With Us</em></h1>
+      <p class="hero-sub fade-up delay-1">Enhancing human connection, not replacing it.</p>
+      <div class="hero-btn-group fade-up delay-2">
+        <a class="btn btn-primary" onclick="showPage('robots')">Explore Robots</a>
+        <a class="btn btn-secondary" onclick="showPage('about')">Our Story</a>
+      </div>
     </div>
   </section>
 
-  <div style="padding:0 48px;max-width:1100px;margin:0 auto;">
-    <div class="stats-bar fade-up delay-3">
-      <div class="stat"><div class="stat-num">3</div><div class="stat-label">Robot Models</div></div>
-      <div class="stat"><div class="stat-num">94%</div><div class="stat-label">Task Accuracy</div></div>
-      <div class="stat"><div class="stat-num">12hr</div><div class="stat-label">Battery Life</div></div>
-      <div class="stat"><div class="stat-num">2021</div><div class="stat-label">Founded</div></div>
+  <!-- Why Genium Slider -->
+  <div class="why-section">
+    <div class="why-bg">
+      <!-- Replace with: <img src="your-why-bg.jpg" alt="Why Genium background"> -->
+      <div class="why-bg-placeholder">[ Add Why Genium Background Image Here ]</div>
+    </div>
+    <div class="why-bg-overlay"></div>
+
+    <div class="why-slider-wrap" id="whySlider">
+      <!-- Slide 0: Initial -->
+      <div class="why-slide active" id="why-slide-0">
+        <div class="why-slide-label">The Genium Difference</div>
+        <div class="why-title">Why<br>Genium</div>
+      </div>
+      <!-- Slide 1 -->
+      <div class="why-slide" id="why-slide-1">
+        <div class="why-slide-label">01 / 03</div>
+        <div class="why-reason-title">Enhances Everyday Life</div>
+        <p class="why-reason-text">Assists with work, hobbies, learning, creativity, and daily tasks — a true companion for every part of your life.</p>
+      </div>
+      <!-- Slide 2 -->
+      <div class="why-slide" id="why-slide-2">
+        <div class="why-slide-label">02 / 03</div>
+        <div class="why-reason-title">Long-Term Partnership</div>
+        <p class="why-reason-text">Companions evolve with users, creating personalized and lasting support that grows deeper over time.</p>
+      </div>
+      <!-- Slide 3 -->
+      <div class="why-slide" id="why-slide-3">
+        <div class="why-slide-label">03 / 03</div>
+        <div class="why-reason-title">Built on Trust &amp; Safety</div>
+        <p class="why-reason-text">Strong focus on reliability, ethics, privacy, and user well-being — because trust is the foundation of every great partnership.</p>
+      </div>
+    </div>
+
+    <div class="why-nav">
+      <button class="why-arrow" id="whyPrev" onclick="whyNav(-1)" aria-label="Previous">&#8592;</button>
+      <div class="why-dots">
+        <button class="why-dot active" onclick="whyGoTo(0)"></button>
+        <button class="why-dot" onclick="whyGoTo(1)"></button>
+        <button class="why-dot" onclick="whyGoTo(2)"></button>
+        <button class="why-dot" onclick="whyGoTo(3)"></button>
+      </div>
+      <button class="why-arrow" id="whyNext" onclick="whyNav(1)" aria-label="Next">&#8594;</button>
     </div>
   </div>
 
-  <hr class="divider" style="margin-top:80px;" />
-
-  <section class="section">
-    <div class="section-header">
-      <div><p class="section-label">Why Genium</p><h2 class="section-title">Built for the real world</h2></div>
-      <p class="section-sub">Our robots aren't science fiction. They're engineered for the jobs, environments, and challenges humans face every day.</p>
-    </div>
-    <div class="features-grid">
-      <div class="feature-card"><div class="feat-icon">🧠</div><div class="feat-title">Adaptive AI</div><p class="feat-desc">Onboard neural processing lets our robots learn new tasks in minutes, adapting to unpredictable environments without cloud dependency.</p></div>
-      <div class="feature-card"><div class="feat-icon">⚡</div><div class="feat-title">High Endurance</div><p class="feat-desc">Proprietary solid-state battery technology delivers up to 12 hours of continuous operation under full load conditions.</p></div>
-      <div class="feature-card"><div class="feat-icon">🤝</div><div class="feat-title">Human-Safe Design</div><p class="feat-desc">Force-sensing joints and predictive collision avoidance make Genium robots the safest collaborative machines in the industry.</p></div>
-      <div class="feature-card"><div class="feat-icon">🔧</div><div class="feat-title">Modular Hardware</div><p class="feat-desc">Swappable end-effectors and sensor arrays let a single robot handle dozens of task types across warehouses, labs, and homes.</p></div>
-      <div class="feature-card"><div class="feat-icon">📡</div><div class="feat-title">Fleet Intelligence</div><p class="feat-desc">Multi-robot coordination allows teams of Genium units to autonomously divide and complete complex, large-scale operations.</p></div>
-      <div class="feature-card"><div class="feat-icon">🔒</div><div class="feat-title">Privacy First</div><p class="feat-desc">All processing happens on-device. No video or behavioral data ever leaves the robot without explicit operator authorization.</p></div>
-    </div>
-  </section>
-
-  <hr class="divider" />
-
-  <section class="section">
-    <div class="section-header">
-      <div><p class="section-label">Product Line</p><h2 class="section-title">Our robots</h2></div>
-      <p class="section-sub">Three platforms. One mission.</p>
-    </div>
-    <div class="models-grid">
-      <div class="model-card"><div class="model-visual">🤖<span class="model-badge badge-flagship">Flagship</span></div><div class="model-info"><div class="model-name">GEN-1 Atlas</div><p class="model-desc">Full-size industrial humanoid for demanding manufacturing environments.</p><div class="model-specs"><span class="spec">6ft 1in</span><span class="spec">12hr battery</span><span class="spec">30kg payload</span></div></div></div>
-      <div class="model-card"><div class="model-visual">🦾<span class="model-badge badge-new">New</span></div><div class="model-info"><div class="model-name">GEN-2 Nimbus</div><p class="model-desc">Compact and agile for logistics, retail, and collaborative workspaces.</p><div class="model-specs"><span class="spec">5ft 4in</span><span class="spec">10hr battery</span><span class="spec">15kg payload</span></div></div></div>
-      <div class="model-card"><div class="model-visual">🧬<span class="model-badge badge-coming">Coming 2026</span></div><div class="model-info"><div class="model-name">GEN-3 Sage</div><p class="model-desc">Care robot with advanced empathy modeling for healthcare and home support.</p><div class="model-specs"><span class="spec">5ft 7in</span><span class="spec">14hr battery</span><span class="spec">8kg payload</span></div></div></div>
-    </div>
-  </section>
-
-  <div style="padding:0 48px 100px;max-width:1100px;margin:0 auto;">
+  <!-- Join the Team CTA -->
+  <div style="padding: 80px 48px; max-width: 1100px; margin: 0 auto;">
     <div class="cta-strip">
-      <div><h3 class="cta-title">Join the team<br><em>behind the future.</em></h3></div>
+      <div>
+        <h3 class="cta-title">Join the team<br><em>behind the future.</em></h3>
+      </div>
       <div style="display:flex;gap:12px;flex-wrap:wrap;">
         <a class="btn btn-primary" onclick="showPage('careers')">View Open Roles</a>
         <a class="btn btn-secondary" onclick="showPage('org')">Meet the Team</a>
@@ -331,50 +485,82 @@
 
 <!-- ══════════════ ABOUT US ══════════════ -->
 <div class="page" id="page-about">
-  <div class="about-hero">
-    <div class="about-hero-text">
-      <div class="hero-eyebrow" style="justify-content:flex-start;">Our Story</div>
-      <h2>Built on one big idea</h2>
-      <p>Genium was founded in 2021 with a simple but radical belief: humanoid robots should make human life richer, not replace the human experience. We set out to build machines that feel like partners, not products.</p>
-      <p>Today, with three robot platforms and a growing global team, we are turning that belief into reality — one interaction at a time.</p>
-      <p style="color:var(--accent);font-weight:500;">Enhancing human connection, not replacing it.</p>
+
+  <!-- Banner Header -->
+  <div class="about-banner">
+    <div class="about-banner-bg">
+      <!-- Replace with: <img src="your-about-bg.jpg" alt="About background"> -->
     </div>
-    <div class="about-visual">
-      <div class="big-robot">🤖</div>
-      <p>Genium Headquarters · Est. 2021</p>
+    <div class="about-banner-overlay"></div>
+    <div class="about-banner-content">
+      <div class="hero-eyebrow">Who We Are</div>
+      <h2>About Genium</h2>
+      <p>At Genium, we believe the future of artificial intelligence is personal.</p>
+    </div>
+  </div>
+
+  <!-- Core Introduction -->
+  <div class="about-body-section">
+    <p class="about-lead">We develop intelligent humanoid companions designed to work alongside people in everyday life. By combining advanced robotics, adaptive AI, and human-centered design, we create technology that can assist with learning, creativity, productivity, and personal growth.</p>
+    <p class="about-lead">Our goal is simple: build companions that enhance human capability without replacing human connection.</p>
+    <p class="about-highlight">Genium companions are designed to understand individual preferences, adapt to changing needs, and provide meaningful support over time.</p>
+  </div>
+
+  <hr class="divider" />
+
+  <!-- Mission + Values -->
+  <div class="about-body-section" style="padding-top: 80px;">
+    <div class="two-col">
+      <div>
+        <p class="section-label">Our Mission</p>
+        <div class="mission-box">
+          <h3>Built for People.</h3>
+          <p>To create intelligent humanoid companions that enhance human capability, confidence, and quality of life through adaptive partnership.</p>
+        </div>
+      </div>
+      <div>
+        <p class="section-label" style="margin-bottom: 18px;">What We Stand For</p>
+        <div class="values-list">
+          <div class="value-item"><span class="value-num">01</span><span class="value-text">Human-Centered Innovation</span></div>
+          <div class="value-item"><span class="value-num">02</span><span class="value-text">Trust and Reliability</span></div>
+          <div class="value-item"><span class="value-num">03</span><span class="value-text">Safe and Responsible AI</span></div>
+          <div class="value-item"><span class="value-num">04</span><span class="value-text">Continuous Learning and Adaptation</span></div>
+          <div class="value-item"><span class="value-num">05</span><span class="value-text">Meaningful Human-Technology Partnership</span></div>
+          <div class="value-item"><span class="value-num">06</span><span class="value-text">Research-Driven Advancement</span></div>
+        </div>
+      </div>
     </div>
   </div>
 
   <hr class="divider" />
 
-  <section class="section">
-    <div class="section-header">
-      <div><p class="section-label">What We Stand For</p><h2 class="section-title">Our values</h2></div>
-      <p class="section-sub">Every decision at Genium flows from the same set of core beliefs.</p>
+  <!-- Deeper About Copy -->
+  <div class="about-body-section">
+    <div class="two-col">
+      <div>
+        <p class="section-label">Who We Are</p>
+        <h2 class="section-title" style="font-size: clamp(24px, 3vw, 36px);">Innovation, safety, and trust at the core.</h2>
+      </div>
+      <div>
+        <p class="about-lead" style="margin-bottom: 16px;">Whether helping users explore new hobbies, develop skills, accomplish daily tasks, or pursue personal goals, our technology is built to grow alongside the people who use it.</p>
+        <p class="about-lead">Our teams bring together expertise in robotics, artificial intelligence, design, and human interaction to create products that are both powerful and approachable.</p>
+      </div>
     </div>
-    <div class="values-grid">
-      <div class="value-card"><div class="value-num">01</div><div class="value-title">Human First</div><p class="value-desc">We design every feature around how people actually live and work — not what's technically impressive.</p></div>
-      <div class="value-card"><div class="value-num">02</div><div class="value-title">Radical Safety</div><p class="value-desc">No feature ships if it compromises the safety of the people around our robots. Full stop.</p></div>
-      <div class="value-card"><div class="value-num">03</div><div class="value-title">Earned Trust</div><p class="value-desc">Transparency in how our AI works, what data it uses, and what it never will — always available to everyone.</p></div>
-      <div class="value-card"><div class="value-num">04</div><div class="value-title">Long-Term Thinking</div><p class="value-desc">We build for the next 50 years, not the next funding round. Durability and repairability are core design principles.</p></div>
-    </div>
-  </section>
+  </div>
 
-  <hr class="divider" />
+  <!-- Vision Banner -->
+  <div class="vision-banner">
+    <p class="section-label" style="color: rgba(255,255,255,0.5); margin-bottom: 14px;">Our Vision</p>
+    <h3>A future where technology empowers<br>everyone to do more, learn more, live better.</h3>
+    <p>We envision a world where intelligent companions help people learn new skills, pursue their passions, overcome challenges, and unlock new opportunities — making advanced technology a natural and positive part of everyday life.</p>
+  </div>
 
-  <section class="section">
-    <div class="section-header">
-      <div><p class="section-label">Milestones</p><h2 class="section-title">How we got here</h2></div>
+  <!-- Placeholder image section -->
+  <div style="padding: 60px 48px; max-width: 1100px; margin: 0 auto;">
+    <div style="width:100%; height: 280px; background: linear-gradient(135deg, #d0deff 0%, #c5d8ff 100%); border-radius: 20px; border: 1.5px dashed rgba(0,98,255,0.25); display: flex; align-items: center; justify-content: center; font-size: 13px; color: rgba(0,98,255,0.4); letter-spacing: 0.12em; text-transform: uppercase;">
+      [ Add About Us Image Here ]
     </div>
-    <div class="timeline">
-      <div class="tl-item"><div class="tl-year">2021</div><div class="tl-title">Genium Founded</div><p class="tl-desc">Started in a 600 sq ft workshop with five engineers and one shared vision.</p></div>
-      <div class="tl-item"><div class="tl-year">2022</div><div class="tl-title">First Prototype</div><p class="tl-desc">The original Atlas prototype took its first unassisted steps — a moment the team still calls "day one."</p></div>
-      <div class="tl-item"><div class="tl-year">2023</div><div class="tl-title">Series A Funding</div><p class="tl-desc">Raised $48M to scale manufacturing and triple the engineering team.</p></div>
-      <div class="tl-item"><div class="tl-year">2024</div><div class="tl-title">GEN-1 Atlas Ships</div><p class="tl-desc">First commercial units delivered to industrial partners across North America and Europe.</p></div>
-      <div class="tl-item"><div class="tl-year">2025</div><div class="tl-title">GEN-2 Nimbus Launches</div><p class="tl-desc">Nimbus brings humanoid robotics to logistics, retail, and everyday workplaces.</p></div>
-      <div class="tl-item"><div class="tl-year">2026</div><div class="tl-title">GEN-3 Sage — Coming Soon</div><p class="tl-desc">Our most human robot yet, built for care, companionship, and home support.</p></div>
-    </div>
-  </section>
+  </div>
 
   <footer>
     <a class="logo-wrap" onclick="showPage('home')" style="text-decoration:none;">
@@ -386,98 +572,127 @@
   </footer>
 </div>
 
-<!-- ══════════════ EXPLORE ROBOTS ══════════════ -->
+<!-- ══════════════ EXPLORE ROBOTS (GENI) ══════════════ -->
 <div class="page" id="page-robots">
-  <div class="robots-hero">
-    <div class="hero-eyebrow" style="justify-content:center;">Product Line</div>
-    <h2>Meet Our Robots</h2>
-    <p>Three humanoid platforms engineered for the real world — each purpose-built, all deeply human.</p>
+
+  <!-- Geni Hero Banner -->
+  <div class="geni-hero">
+    <div class="geni-hero-bg">
+      <!-- Replace with: <img src="your-geni-bg.jpg" alt="Geni background"> -->
+    </div>
+    <div class="geni-hero-overlay"></div>
+    <div class="geni-hero-content">
+      <div class="hero-eyebrow">Meet Geni</div>
+      <h2>Geni</h2>
+      <p class="geni-tagline">Your Adaptive AI Companion</p>
+      <p class="geni-desc">Geni is an advanced humanoid companion designed to integrate naturally into everyday life. More than a tool, Geni is built to learn, adapt, and grow alongside its user through personalized interaction and long-term support.</p>
+    </div>
   </div>
 
-  <div class="robot-detail-grid">
+  <!-- Key Features -->
+  <div class="geni-body">
+    <p class="section-label">What Geni Can Do</p>
+    <h2 class="geni-features-title">Key Features</h2>
 
-    <!-- GEN-1 Atlas -->
-    <div class="robot-detail-card">
-      <div class="robot-detail-visual">
-        <div class="r-emoji">🤖</div>
-        <span class="r-badge badge-flagship">Flagship Model</span>
+    <div class="geni-grid">
+
+      <div class="geni-card">
+        <div class="geni-card-img">[ Image Placeholder ]</div>
+        <div class="geni-card-title">Natural Conversation</div>
+        <ul class="geni-card-list">
+          <li>Advanced conversational AI</li>
+          <li>Context-aware discussions</li>
+          <li>Long-term memory and preference retention</li>
+          <li>Natural speech and interaction</li>
+        </ul>
       </div>
-      <div class="robot-detail-body">
-        <div class="model-name">GEN-1 Atlas</div>
-        <div class="tagline">Industrial Powerhouse</div>
-        <p class="desc">Atlas is Genium's flagship full-size humanoid, built for the most demanding industrial environments. With advanced force sensing and a modular tool system, Atlas handles complex multi-step manufacturing tasks with precision and endurance no human could sustain.</p>
-        <div class="spec-grid">
-          <div class="spec-tile"><div class="s-val">6'1"</div><div class="s-key">Height</div></div>
-          <div class="spec-tile"><div class="s-val">12hr</div><div class="s-key">Battery Life</div></div>
-          <div class="spec-tile"><div class="s-val">30kg</div><div class="s-key">Payload</div></div>
-          <div class="spec-tile"><div class="s-val">94%</div><div class="s-key">Task Accuracy</div></div>
-          <div class="spec-tile"><div class="s-val">2m/s</div><div class="s-key">Walk Speed</div></div>
-          <div class="spec-tile"><div class="s-val">32</div><div class="s-key">DOF</div></div>
+
+      <div class="geni-card">
+        <div class="geni-card-img">[ Image Placeholder ]</div>
+        <div class="geni-card-title">Personalized Learning</div>
+        <ul class="geni-card-list">
+          <li>Adapts to individual routines and interests</li>
+          <li>Learns user preferences over time</li>
+          <li>Provides customized assistance and recommendations</li>
+          <li>Evolves alongside the user</li>
+        </ul>
+      </div>
+
+      <div class="geni-card">
+        <div class="geni-card-img">[ Image Placeholder ]</div>
+        <div class="geni-card-title">Hobbies &amp; Recreation</div>
+        <ul class="geni-card-list">
+          <li>Participate in creative projects</li>
+          <li>Assist with music, gaming, and crafting</li>
+          <li>Teach new hobbies and skills</li>
+          <li>Support recreational activities and practice</li>
+        </ul>
+      </div>
+
+      <div class="geni-card">
+        <div class="geni-card-img">[ Image Placeholder ]</div>
+        <div class="geni-card-title">Work &amp; Productivity</div>
+        <ul class="geni-card-list">
+          <li>Assist with professional tasks</li>
+          <li>Help organize projects and schedules</li>
+          <li>Support coding, research, and learning</li>
+          <li>Collaborate on problem-solving activities</li>
+        </ul>
+      </div>
+
+      <div class="geni-card">
+        <div class="geni-card-img">[ Image Placeholder ]</div>
+        <div class="geni-card-title">Emotional Intelligence</div>
+        <ul class="geni-card-list">
+          <li>Responsive and socially aware interactions</li>
+          <li>Personalized communication styles</li>
+          <li>Designed to provide supportive companionship</li>
+          <li>Focused on enhancing human connection</li>
+        </ul>
+      </div>
+
+      <div class="geni-card">
+        <div class="geni-card-img">[ Image Placeholder ]</div>
+        <div class="geni-card-title">Humanoid Mobility</div>
+        <ul class="geni-card-list">
+          <li>Human-like movement and coordination</li>
+          <li>Physical interaction with the environment</li>
+          <li>Dexterous manipulation and object handling</li>
+          <li>Designed for real-world everyday activities</li>
+        </ul>
+      </div>
+
+    </div>
+
+    <!-- Core Principles -->
+    <div class="geni-principles">
+      <p class="section-label" style="color: rgba(255,255,255,0.45);">Built Around You</p>
+      <h3>Every Geni companion is designed<br>around four core principles.</h3>
+      <div class="principles-grid">
+        <div class="principle-item">
+          <div class="principle-icon">[ img ]</div>
+          <div class="principle-name">Adaptive Learning</div>
         </div>
-        <div class="cap-list">
-          <span class="cap-tag">Heavy Assembly</span>
-          <span class="cap-tag">Warehouse Ops</span>
-          <span class="cap-tag">Precision Welding</span>
-          <span class="cap-tag">Hazardous Environments</span>
-          <span class="cap-tag">Fleet Coordination</span>
+        <div class="principle-item">
+          <div class="principle-icon">[ img ]</div>
+          <div class="principle-name">Trust &amp; Reliability</div>
+        </div>
+        <div class="principle-item">
+          <div class="principle-icon">[ img ]</div>
+          <div class="principle-name">Safety &amp; Responsibility</div>
+        </div>
+        <div class="principle-item">
+          <div class="principle-icon">[ img ]</div>
+          <div class="principle-name">Human-Centered Design</div>
         </div>
       </div>
     </div>
 
-    <!-- GEN-2 Nimbus -->
-    <div class="robot-detail-card">
-      <div class="robot-detail-visual">
-        <div class="r-emoji">🦾</div>
-        <span class="r-badge badge-new">Now Available</span>
-      </div>
-      <div class="robot-detail-body">
-        <div class="model-name">GEN-2 Nimbus</div>
-        <div class="tagline">Agile Collaborator</div>
-        <p class="desc">Nimbus is designed to work alongside people in everyday commercial spaces. Lighter, faster, and more socially aware than Atlas, Nimbus thrives in retail, logistics, and office environments — navigating crowds, handling packages, and assisting customers.</p>
-        <div class="spec-grid">
-          <div class="spec-tile"><div class="s-val">5'4"</div><div class="s-key">Height</div></div>
-          <div class="spec-tile"><div class="s-val">10hr</div><div class="s-key">Battery Life</div></div>
-          <div class="spec-tile"><div class="s-val">15kg</div><div class="s-key">Payload</div></div>
-          <div class="spec-tile"><div class="s-val">3m/s</div><div class="s-key">Walk Speed</div></div>
-          <div class="spec-tile"><div class="s-val">28</div><div class="s-key">DOF</div></div>
-          <div class="spec-tile"><div class="s-val">72kg</div><div class="s-key">Robot Weight</div></div>
-        </div>
-        <div class="cap-list">
-          <span class="cap-tag">Retail Assistance</span>
-          <span class="cap-tag">Last-Mile Delivery</span>
-          <span class="cap-tag">Inventory Management</span>
-          <span class="cap-tag">Customer Interaction</span>
-          <span class="cap-tag">Office Support</span>
-        </div>
-      </div>
-    </div>
-
-    <!-- GEN-3 Sage -->
-    <div class="robot-detail-card">
-      <div class="robot-detail-visual">
-        <div class="r-emoji">🧬</div>
-        <span class="r-badge badge-coming">Coming 2026</span>
-      </div>
-      <div class="robot-detail-body">
-        <div class="model-name">GEN-3 Sage</div>
-        <div class="tagline">The Care Companion</div>
-        <p class="desc">Sage represents the most human robot Genium has ever built. With advanced empathy modeling, gentle force control, and a warm conversational presence, Sage is designed for healthcare facilities, elder care homes, and everyday domestic support.</p>
-        <div class="spec-grid">
-          <div class="spec-tile"><div class="s-val">5'7"</div><div class="s-key">Height</div></div>
-          <div class="spec-tile"><div class="s-val">14hr</div><div class="s-key">Battery Life</div></div>
-          <div class="spec-tile"><div class="s-val">8kg</div><div class="s-key">Payload</div></div>
-          <div class="spec-tile"><div class="s-val">1.2m/s</div><div class="s-key">Walk Speed</div></div>
-          <div class="spec-tile"><div class="s-val">36</div><div class="s-key">DOF</div></div>
-          <div class="spec-tile"><div class="s-val">58kg</div><div class="s-key">Robot Weight</div></div>
-        </div>
-        <div class="cap-list">
-          <span class="cap-tag">Elder Care</span>
-          <span class="cap-tag">Patient Assistance</span>
-          <span class="cap-tag">Medication Reminders</span>
-          <span class="cap-tag">Emotional Support</span>
-          <span class="cap-tag">Home Navigation</span>
-        </div>
-      </div>
+    <!-- A Companion for Life -->
+    <div class="geni-companion">
+      <p class="section-label">A Companion for Life</p>
+      <h3>Geni remembers, learns, and grows with you.</h3>
+      <p>Through memory continuity and personalized interaction, your companion becomes increasingly capable of supporting your goals, interests, and daily life over time — a true long-term partner.</p>
     </div>
 
   </div>
@@ -492,7 +707,7 @@
   </footer>
 </div>
 
-<!-- ══════════════ OUR TEAM / ORG CHART ══════════════ -->
+<!-- ══════════════ OUR TEAM ══════════════ -->
 <div class="page" id="page-org">
   <div class="org-hero">
     <p class="section-label">Leadership</p>
@@ -506,33 +721,33 @@
     <div class="board-label">Board of Directors</div>
     <div class="board-row">
       <div class="board-card">
-        <div class="board-avatar">👤</div>
-        <div class="board-name">Board Member 1</div>
+        <div class="board-avatar">Photo</div>
+        <div class="board-name">Cooper Smith</div>
         <div class="board-role">Board Chair</div>
       </div>
       <div class="board-card">
-        <div class="board-avatar">👤</div>
-        <div class="board-name">Board Member 2</div>
+        <div class="board-avatar">Photo</div>
+        <div class="board-name">Carter Larson</div>
         <div class="board-role">Director</div>
       </div>
       <div class="board-card">
-        <div class="board-avatar">👤</div>
-        <div class="board-name">Board Member 3</div>
+        <div class="board-avatar">Photo</div>
+        <div class="board-name">Luccas Oliveira</div>
         <div class="board-role">Director</div>
       </div>
       <div class="board-card">
-        <div class="board-avatar">👤</div>
-        <div class="board-name">Board Member 4</div>
+        <div class="board-avatar">Photo</div>
+        <div class="board-name">John Pham</div>
         <div class="board-role">Director</div>
       </div>
       <div class="board-card">
-        <div class="board-avatar">👤</div>
-        <div class="board-name">Board Member 5</div>
+        <div class="board-avatar">Photo</div>
+        <div class="board-name">Christian Sayegh</div>
         <div class="board-role">Director</div>
       </div>
       <div class="board-card">
-        <div class="board-avatar">👤</div>
-        <div class="board-name">Board Member 6</div>
+        <div class="board-avatar">Photo</div>
+        <div class="board-name">Kostandin Theodhori</div>
         <div class="board-role">Director</div>
       </div>
     </div>
@@ -543,7 +758,6 @@
     <!-- CEO -->
     <div class="ceo-row">
       <div class="ceo-card">
-        <div class="c-icon">👤</div>
         <div class="c-title">Chief Executive Officer</div>
         <div class="c-name">CEO</div>
       </div>
@@ -558,23 +772,23 @@
     <!-- Executive cards -->
     <div class="exec-row">
       <div class="exec-card exec-cto"  id="card-cto"  onclick="toggleDiv('cto')">
-        <div class="c-icon">⚙️</div><div class="c-abbr">CTO</div><div class="c-name">Chief Technology Officer</div>
+        <div class="c-abbr">CTO</div><div class="c-name">Chief Technology Officer</div>
         <div class="toggle-arrow">▼</div>
       </div>
       <div class="exec-card exec-cexo" id="card-cexo" onclick="toggleDiv('cexo')">
-        <div class="c-icon">💚</div><div class="c-abbr">CEXO</div><div class="c-name">Chief Experience Officer</div>
+        <div class="c-abbr">CEXO</div><div class="c-name">Chief Experience Officer</div>
         <div class="toggle-arrow">▼</div>
       </div>
       <div class="exec-card exec-coo"  id="card-coo"  onclick="toggleDiv('coo')">
-        <div class="c-icon">🏭</div><div class="c-abbr">COO</div><div class="c-name">Chief Operating Officer</div>
+        <div class="c-abbr">COO</div><div class="c-name">Chief Operating Officer</div>
         <div class="toggle-arrow">▼</div>
       </div>
       <div class="exec-card exec-cfo"  id="card-cfo"  onclick="toggleDiv('cfo')">
-        <div class="c-icon">📊</div><div class="c-abbr">CFO</div><div class="c-name">Chief Financial Officer</div>
+        <div class="c-abbr">CFO</div><div class="c-name">Chief Financial Officer</div>
         <div class="toggle-arrow">▼</div>
       </div>
       <div class="exec-card exec-cpo"  id="card-cpo"  onclick="toggleDiv('cpo')">
-        <div class="c-icon">👥</div><div class="c-abbr">CPO</div><div class="c-name">Chief People Officer</div>
+        <div class="c-abbr">CPO</div><div class="c-name">Chief People Officer</div>
         <div class="toggle-arrow">▼</div>
       </div>
     </div>
@@ -584,67 +798,63 @@
       <div class="div-panel panel-cto" id="panel-cto">
         <div class="div-panel-inner">
           <div style="color:#7EB8FF;" class="div-section-title">Engineering &amp; Robotics Division</div>
-          <div class="div-dept"><div class="div-dept-name" style="color:#7EB8FF;">🦴 Mechanical Engineering</div><div class="div-team">Skeletal systems</div><div class="div-team">Mobility architecture</div><div class="div-team">Structural articulation</div><div class="div-team">Repairability engineering</div></div>
-          <div class="div-dept"><div class="div-dept-name" style="color:#7EB8FF;">🤖 AI Systems</div><div class="div-team">Conversational intelligence</div><div class="div-team">Learning systems</div><div class="div-team">Behavioral modeling</div><div class="div-team">Emotional response algorithms</div></div>
-          <div class="div-dept"><div class="div-dept-name" style="color:#7EB8FF;">⚡ Electrical &amp; Hardware</div><div class="div-team">Sensors and actuators</div><div class="div-team">Power systems</div><div class="div-team">Embedded electronics</div></div>
-          <div class="div-dept"><div class="div-dept-name" style="color:#7EB8FF;">💾 Robotics Software</div><div class="div-team">Control systems</div><div class="div-team">Motion planning</div><div class="div-team">Integration software</div></div>
+          <div class="div-dept"><div class="div-dept-name" style="color:#7EB8FF;">Mechanical Engineering</div><div class="div-team">Skeletal systems</div><div class="div-team">Mobility architecture</div><div class="div-team">Structural articulation</div></div>
+          <div class="div-dept"><div class="div-dept-name" style="color:#7EB8FF;">AI Systems</div><div class="div-team">Conversational intelligence</div><div class="div-team">Learning systems</div><div class="div-team">Behavioral modeling</div></div>
+          <div class="div-dept"><div class="div-dept-name" style="color:#7EB8FF;">Electrical &amp; Hardware</div><div class="div-team">Sensors and actuators</div><div class="div-team">Power systems</div></div>
+          <div class="div-dept"><div class="div-dept-name" style="color:#7EB8FF;">Robotics Software</div><div class="div-team">Control systems</div><div class="div-team">Motion planning</div></div>
         </div>
       </div>
       <div class="div-panel panel-cexo" id="panel-cexo">
         <div class="div-panel-inner">
           <div style="color:#8FCC50;" class="div-section-title">Experience &amp; Human Interaction Division</div>
-          <div class="div-dept"><div class="div-dept-name" style="color:#8FCC50;">🤲 Human-Companion Interaction Team</div></div>
-          <div class="div-dept"><div class="div-dept-name" style="color:#8FCC50;">🖥️ User Experience (UX) Design Team</div></div>
-          <div class="div-dept"><div class="div-dept-name" style="color:#8FCC50;">🏠 Lifestyle Integration Specialists</div></div>
-          <div class="div-dept"><div class="div-dept-name" style="color:#8FCC50;">♿ Accessibility &amp; Inclusion Team</div></div>
-          <div class="div-dept"><div class="div-dept-name" style="color:#8FCC50;">💙 Emotional Engagement Systems Team</div></div>
+          <div class="div-dept"><div class="div-dept-name" style="color:#8FCC50;">Human-Companion Interaction</div></div>
+          <div class="div-dept"><div class="div-dept-name" style="color:#8FCC50;">UX Design Team</div></div>
+          <div class="div-dept"><div class="div-dept-name" style="color:#8FCC50;">Lifestyle Integration</div></div>
+          <div class="div-dept"><div class="div-dept-name" style="color:#8FCC50;">Accessibility &amp; Inclusion</div></div>
+          <div class="div-dept"><div class="div-dept-name" style="color:#8FCC50;">Emotional Engagement Systems</div></div>
         </div>
       </div>
       <div class="div-panel panel-coo" id="panel-coo">
         <div class="div-panel-inner">
           <div style="color:#B080FF;" class="div-section-title">Operations Division</div>
-          <div class="div-dept"><div class="div-dept-name" style="color:#B080FF;">🏗️ Manufacturing &amp; Assembly Team</div></div>
-          <div class="div-dept"><div class="div-dept-name" style="color:#B080FF;">🚚 Supply Chain &amp; Logistics Team</div></div>
-          <div class="div-dept"><div class="div-dept-name" style="color:#B080FF;">✅ Quality Assurance (QA) Team</div></div>
-          <div class="div-dept"><div class="div-dept-name" style="color:#B080FF;">🔨 Maintenance &amp; Repair Services Team</div></div>
+          <div class="div-dept"><div class="div-dept-name" style="color:#B080FF;">Manufacturing &amp; Assembly</div></div>
+          <div class="div-dept"><div class="div-dept-name" style="color:#B080FF;">Supply Chain &amp; Logistics</div></div>
+          <div class="div-dept"><div class="div-dept-name" style="color:#B080FF;">Quality Assurance</div></div>
+          <div class="div-dept"><div class="div-dept-name" style="color:#B080FF;">Maintenance &amp; Repair</div></div>
         </div>
       </div>
       <div class="div-panel panel-cfo" id="panel-cfo">
         <div class="div-panel-inner">
           <div style="color:#FF8C30;" class="div-section-title">Business &amp; Growth Division</div>
-          <div class="div-dept"><div class="div-dept-name" style="color:#FF8C30;">💼 Sales &amp; Business Development Team</div></div>
-          <div class="div-dept"><div class="div-dept-name" style="color:#FF8C30;">📣 Marketing &amp; Brand Strategy Team</div></div>
-          <div class="div-dept"><div class="div-dept-name" style="color:#FF8C30;">🎧 Customer Success &amp; Support Team</div></div>
-          <div class="div-dept"><div class="div-dept-name" style="color:#FF8C30;">🤝 Partnerships &amp; Enterprise Solutions Team</div></div>
+          <div class="div-dept"><div class="div-dept-name" style="color:#FF8C30;">Sales &amp; Business Development</div></div>
+          <div class="div-dept"><div class="div-dept-name" style="color:#FF8C30;">Marketing &amp; Brand Strategy</div></div>
+          <div class="div-dept"><div class="div-dept-name" style="color:#FF8C30;">Customer Success &amp; Support</div></div>
+          <div class="div-dept"><div class="div-dept-name" style="color:#FF8C30;">Partnerships &amp; Enterprise</div></div>
         </div>
       </div>
       <div class="div-panel panel-cpo" id="panel-cpo">
         <div class="div-panel-inner">
           <div style="color:#30D0D0;" class="div-section-title">People &amp; Culture Division</div>
-          <div class="div-dept"><div class="div-dept-name" style="color:#30D0D0;">🔍 Talent Acquisition Team</div></div>
-          <div class="div-dept"><div class="div-dept-name" style="color:#30D0D0;">📚 Learning &amp; Development Team</div></div>
-          <div class="div-dept"><div class="div-dept-name" style="color:#30D0D0;">🎉 Culture &amp; Employee Engagement Team</div></div>
-          <div class="div-dept"><div class="div-dept-name" style="color:#30D0D0;">📋 HR Operations Team</div></div>
+          <div class="div-dept"><div class="div-dept-name" style="color:#30D0D0;">Talent Acquisition</div></div>
+          <div class="div-dept"><div class="div-dept-name" style="color:#30D0D0;">Learning &amp; Development</div></div>
+          <div class="div-dept"><div class="div-dept-name" style="color:#30D0D0;">Culture &amp; Engagement</div></div>
+          <div class="div-dept"><div class="div-dept-name" style="color:#30D0D0;">HR Operations</div></div>
         </div>
       </div>
     </div>
 
     <div class="research-row" id="research-row">
       <div class="research-panel">
-        <div class="research-header">🔬 Research &amp; Innovation Division <span style="font-size:11px;color:var(--muted);font-weight:400;">(cross-functional)</span></div>
+        <div class="research-header">Research &amp; Innovation Division <span style="font-size:11px;color:rgba(255,255,255,0.35);font-weight:400;">(cross-functional)</span></div>
         <div class="research-teams">
-          <div class="research-team"><strong>🦿 Advanced Robotics</strong>Research Lab</div>
-          <div class="research-team"><strong>🧪 Prototype Development</strong>Team</div>
-          <div class="research-team"><strong>🔭 Future Tech Exploration</strong>Unit</div>
-          <div class="research-team"><strong>⚖️ Ethics &amp; AI Safety</strong>Research Group</div>
+          <div class="research-team"><strong>Advanced Robotics</strong>Research Lab</div>
+          <div class="research-team"><strong>Prototype Development</strong>Team</div>
+          <div class="research-team"><strong>Future Tech Exploration</strong>Unit</div>
+          <div class="research-team"><strong>Ethics &amp; AI Safety</strong>Research Group</div>
         </div>
       </div>
     </div>
 
-    <div class="mission-bar">
-      <span style="font-size:20px;">🎯</span>
-      <div><strong>Our Mission:</strong> To create intelligent humanoid robots that enrich lives, empower potential, and build a better future for humanity.</div>
-    </div>
   </div>
 
   <footer>
@@ -665,32 +875,85 @@
     <p>We're looking for people who believe technology should serve humanity — and want to spend their careers proving it.</p>
   </div>
 
-  <section class="section" style="padding-top:40px;">
-    <div class="section-header">
-      <div><p class="section-label">Life at Genium</p><h2 class="section-title">Why work here</h2></div>
-    </div>
-    <div class="perks-grid">
-      <div class="perk-card"><div class="perk-icon">🚀</div><div class="perk-title">Mission-Driven Work</div><p class="perk-desc">Every project connects to something bigger. You'll always know why your work matters.</p></div>
-      <div class="perk-card"><div class="perk-icon">🌍</div><div class="perk-title">Remote-Friendly</div><p class="perk-desc">Flexible work arrangements with hubs in major cities and full remote options for most roles.</p></div>
-      <div class="perk-card"><div class="perk-icon">📈</div><div class="perk-title">Equity for Everyone</div><p class="perk-desc">All full-time employees receive stock options. When Genium wins, everyone wins.</p></div>
-      <div class="perk-card"><div class="perk-icon">🎓</div><div class="perk-title">Learning Budget</div><p class="perk-desc">$3,000/year for courses, conferences, books, or anything that makes you better at your craft.</p></div>
-      <div class="perk-card"><div class="perk-icon">🏥</div><div class="perk-title">Full Benefits</div><p class="perk-desc">Comprehensive health, dental, and vision coverage for you and your dependents.</p></div>
-      <div class="perk-card"><div class="perk-icon">🤖</div><div class="perk-title">Robot Time</div><p class="perk-desc">Engineers get 10% of their time for exploratory projects — no approvals required.</p></div>
+  <div class="jobs-section">
+    <p class="jobs-section-label">Open Positions</p>
+    <h2 class="jobs-section-title">Current Openings</h2>
+
+    <!-- JOB 1: Mechanical Engineer -->
+    <div class="job-listing">
+      <div class="job-header">
+        <div class="job-meta-top">
+          <span class="job-tag tag-dept">Robotics Engineering</span>
+          <span class="job-tag tag-loc">Genium Headquarters</span>
+        </div>
+        <div class="job-listing-title">Mechanical Engineer</div>
+        <div class="job-salary">Salary Range: $70,000 – $110,000</div>
+      </div>
+      <div class="job-body">
+        <div>
+          <div class="job-section-title">About the Role</div>
+          <p class="job-desc">Help design and develop the physical systems that power Genium companions. Mechanical Engineers work on mobility, structural design, articulation, and durability to create humanoid robots capable of operating naturally in the real world.</p>
+          <div class="job-section-title">Key Responsibilities</div>
+          <ul class="job-list">
+            <li>Design robotic structures and movement systems</li>
+            <li>Develop and test prototypes</li>
+            <li>Collaborate with AI and software teams</li>
+            <li>Improve performance, reliability, and repairability</li>
+          </ul>
+        </div>
+        <div>
+          <div class="job-section-title">Qualifications</div>
+          <ul class="job-list">
+            <li>Degree in Mechanical Engineering, Robotics, or related field</li>
+            <li>Experience with CAD software and prototype development</li>
+            <li>Strong problem-solving and analytical skills</li>
+            <li>Ability to work in a collaborative team environment</li>
+          </ul>
+        </div>
+      </div>
+      <div class="job-footer">
+        <button class="apply-btn" onclick="openModal('Mechanical Engineer')">Apply Now</button>
+      </div>
     </div>
 
-    <div class="section-header" style="margin-top:20px;">
-      <div><p class="section-label">Open Positions</p><h2 class="section-title">Current openings</h2></div>
+    <!-- JOB 2: CEXO -->
+    <div class="job-listing">
+      <div class="job-header">
+        <div class="job-meta-top">
+          <span class="job-tag tag-dept">Product Experience</span>
+          <span class="job-tag tag-loc">Genium Headquarters</span>
+        </div>
+        <div class="job-listing-title">Chief Experience Officer (CEXO)</div>
+        <div class="job-salary">Salary Range: $160,000 – $240,000</div>
+      </div>
+      <div class="job-body">
+        <div>
+          <div class="job-section-title">About the Role</div>
+          <p class="job-desc">Lead the vision for how users interact with Genium companions. The Chief Experience Officer ensures every product delivers intuitive, personalized, and meaningful experiences that align with our mission of human-centered technology.</p>
+          <div class="job-section-title">Key Responsibilities</div>
+          <ul class="job-list">
+            <li>Oversee user experience strategy</li>
+            <li>Guide personalization and accessibility initiatives</li>
+            <li>Coordinate across engineering, AI, design, and support teams</li>
+            <li>Shape the future of human-companion interaction</li>
+          </ul>
+        </div>
+        <div>
+          <div class="job-section-title">Qualifications</div>
+          <ul class="job-list">
+            <li>Master's degree in a relevant field</li>
+            <li>Leadership experience in technology or product development</li>
+            <li>Strong communication and strategic planning skills</li>
+            <li>Passion for human-centered innovation</li>
+          </ul>
+        </div>
+      </div>
+      <div class="job-footer">
+        <button class="apply-btn" onclick="openModal('Chief Experience Officer (CEXO)')">Apply Now</button>
+      </div>
     </div>
-    <div class="jobs-list">
-      <div class="job-card"><div class="job-info"><div class="job-title">Senior Robotics Software Engineer</div><div class="job-meta"><span class="job-tag tag-dept">Engineering</span><span class="job-tag tag-loc">San Francisco, CA</span><span class="job-tag tag-type">Full-Time</span></div></div><div class="job-arrow">→</div></div>
-      <div class="job-card"><div class="job-info"><div class="job-title">AI/ML Research Scientist</div><div class="job-meta"><span class="job-tag tag-dept">Engineering</span><span class="job-tag tag-loc">Remote</span><span class="job-tag tag-type">Full-Time</span></div></div><div class="job-arrow">→</div></div>
-      <div class="job-card"><div class="job-info"><div class="job-title">UX Designer — Human-Robot Interaction</div><div class="job-meta"><span class="job-tag tag-dept">Design</span><span class="job-tag tag-loc">New York, NY</span><span class="job-tag tag-type">Full-Time</span></div></div><div class="job-arrow">→</div></div>
-      <div class="job-card"><div class="job-info"><div class="job-title">Manufacturing Operations Manager</div><div class="job-meta"><span class="job-tag tag-dept">Operations</span><span class="job-tag tag-loc">Austin, TX</span><span class="job-tag tag-type">Full-Time</span></div></div><div class="job-arrow">→</div></div>
-      <div class="job-card"><div class="job-info"><div class="job-title">Enterprise Sales Director</div><div class="job-meta"><span class="job-tag tag-dept">Business Dev</span><span class="job-tag tag-loc">Remote</span><span class="job-tag tag-type">Full-Time</span></div></div><div class="job-arrow">→</div></div>
-      <div class="job-card"><div class="job-info"><div class="job-title">Mechanical Engineer — Humanoid Systems</div><div class="job-meta"><span class="job-tag tag-dept">Engineering</span><span class="job-tag tag-loc">Boston, MA</span><span class="job-tag tag-type">Full-Time</span></div></div><div class="job-arrow">→</div></div>
-      <div class="job-card"><div class="job-info"><div class="job-title">Ethics &amp; AI Safety Researcher</div><div class="job-meta"><span class="job-tag tag-dept">Research</span><span class="job-tag tag-loc">Remote</span><span class="job-tag tag-type">Full-Time</span></div></div><div class="job-arrow">→</div></div>
-    </div>
-  </section>
+
+  </div>
 
   <footer>
     <a class="logo-wrap" onclick="showPage('home')" style="text-decoration:none;">
@@ -702,7 +965,46 @@
   </footer>
 </div>
 
+<!-- ══════════════ APPLY MODAL ══════════════ -->
+<div class="modal-overlay" id="applyModal" onclick="closeModalOnBg(event)">
+  <div class="modal">
+    <div class="modal-header">
+      <h3>Apply for Position</h3>
+      <p id="modalJobTitle">Loading...</p>
+    </div>
+    <div class="modal-body">
+      <div class="form-row">
+        <div class="form-group">
+          <label for="firstName">First Name</label>
+          <input type="text" id="firstName" placeholder="e.g. Alex" />
+        </div>
+        <div class="form-group">
+          <label for="lastName">Last Name</label>
+          <input type="text" id="lastName" placeholder="e.g. Johnson" />
+        </div>
+      </div>
+
+      <label style="font-size:13px; font-weight:600; color:var(--text); display:block; margin-bottom:8px;">Resume</label>
+      <div class="upload-zone" id="resumeZone" onclick="document.getElementById('resumeInput').click()">
+        <input type="file" id="resumeInput" accept=".pdf,.doc,.docx" onchange="handleUpload('resumeZone','resumeInput','resumeLabel')" />
+        <label class="upload-label" id="resumeLabel"><span>Click to upload</span> or drag &amp; drop your resume<br><span class="upload-hint">PDF, DOC, or DOCX · Max 10MB</span></label>
+      </div>
+
+      <label style="font-size:13px; font-weight:600; color:var(--text); display:block; margin-bottom:8px; margin-top:4px;">Cover Letter</label>
+      <div class="upload-zone" id="coverZone" onclick="document.getElementById('coverInput').click()">
+        <input type="file" id="coverInput" accept=".pdf,.doc,.docx" onchange="handleUpload('coverZone','coverInput','coverLabel')" />
+        <label class="upload-label" id="coverLabel"><span>Click to upload</span> or drag &amp; drop your cover letter<br><span class="upload-hint">PDF, DOC, or DOCX · Max 10MB</span></label>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="modal-cancel" onclick="closeModal()">Cancel</button>
+      <button class="modal-submit" onclick="submitApplication()">Submit Application</button>
+    </div>
+  </div>
+</div>
+
 <script>
+  /* ── PAGE NAV ── */
   function showPage(name) {
     document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
     document.querySelectorAll('.nav-links a').forEach(a => a.classList.remove('active'));
@@ -711,6 +1013,7 @@
     window.scrollTo(0, 0);
   }
 
+  /* ── ORG CHART TOGGLE ── */
   const openPanels = new Set();
   function toggleDiv(key) {
     const card = document.getElementById('card-' + key);
@@ -720,6 +1023,57 @@
     else { openPanels.add(key); card.classList.add('open'); panel.classList.add('open'); }
     const rr = document.getElementById('research-row');
     openPanels.size > 0 ? rr.classList.add('visible') : rr.classList.remove('visible');
+  }
+
+  /* ── WHY GENIUM SLIDER ── */
+  let whyIndex = 0;
+  const whyTotal = 4;
+
+  function whyGoTo(idx) {
+    document.getElementById('why-slide-' + whyIndex).classList.remove('active');
+    document.querySelectorAll('.why-dot')[whyIndex].classList.remove('active');
+    whyIndex = (idx + whyTotal) % whyTotal;
+    document.getElementById('why-slide-' + whyIndex).classList.add('active');
+    document.querySelectorAll('.why-dot')[whyIndex].classList.add('active');
+  }
+
+  function whyNav(dir) { whyGoTo(whyIndex + dir); }
+
+  /* ── APPLY MODAL ── */
+  function openModal(jobTitle) {
+    document.getElementById('modalJobTitle').textContent = jobTitle;
+    document.getElementById('applyModal').classList.add('active');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeModal() {
+    document.getElementById('applyModal').classList.remove('active');
+    document.body.style.overflow = '';
+    // reset form
+    document.getElementById('firstName').value = '';
+    document.getElementById('lastName').value = '';
+    document.getElementById('resumeInput').value = '';
+    document.getElementById('coverInput').value = '';
+    document.getElementById('resumeZone').classList.remove('uploaded');
+    document.getElementById('coverZone').classList.remove('uploaded');
+    document.getElementById('resumeLabel').innerHTML = '<span>Click to upload</span> or drag &amp; drop your resume<br><span class="upload-hint">PDF, DOC, or DOCX · Max 10MB</span>';
+    document.getElementById('coverLabel').innerHTML = '<span>Click to upload</span> or drag &amp; drop your cover letter<br><span class="upload-hint">PDF, DOC, or DOCX · Max 10MB</span>';
+  }
+  function closeModalOnBg(e) { if (e.target === document.getElementById('applyModal')) closeModal(); }
+
+  function handleUpload(zoneId, inputId, labelId) {
+    const file = document.getElementById(inputId).files[0];
+    if (file) {
+      document.getElementById(zoneId).classList.add('uploaded');
+      document.getElementById(labelId).innerHTML = '&#10003; <strong>' + file.name + '</strong> uploaded successfully';
+    }
+  }
+
+  function submitApplication() {
+    const first = document.getElementById('firstName').value.trim();
+    const last = document.getElementById('lastName').value.trim();
+    if (!first || !last) { alert('Please enter your first and last name.'); return; }
+    closeModal();
+    setTimeout(() => alert('Thank you, ' + first + '! Your application has been submitted successfully.'), 200);
   }
 </script>
 </body>
